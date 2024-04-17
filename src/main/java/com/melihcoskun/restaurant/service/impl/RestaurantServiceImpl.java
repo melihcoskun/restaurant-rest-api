@@ -3,9 +3,14 @@ package com.melihcoskun.restaurant.service.impl;
 import com.melihcoskun.restaurant.entity.Restaurant;
 import com.melihcoskun.restaurant.exception.ResourceNotFoundException;
 import com.melihcoskun.restaurant.payload.RestaurantDto;
+import com.melihcoskun.restaurant.payload.RestaurantResponse;
 import com.melihcoskun.restaurant.repository.RestaurantRepository;
 import com.melihcoskun.restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +38,27 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<RestaurantDto> getAllRestaurants() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        return restaurants.stream().map(this::mapToDto).collect(Collectors.toList());
+    public RestaurantResponse getAllRestaurants(int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo,pageSize,sort);
+
+
+        Page<Restaurant> restaurants = restaurantRepository.findAll(pageable);
+        List<Restaurant> listOfRestaurants = restaurants.getContent();
+        List<RestaurantDto> content  = listOfRestaurants.stream().map(this::mapToDto).collect(Collectors.toList());
+        RestaurantResponse restaurantResponse = new RestaurantResponse();
+        restaurantResponse.setContent(content);
+        restaurantResponse.setPageNo(restaurants.getNumber());
+        restaurantResponse.setPageSize(restaurants.getSize());
+        restaurantResponse.setTotalElements(restaurants.getTotalElements());
+        restaurantResponse.setTotalPages(restaurants.getTotalPages());
+        restaurantResponse.setLast(restaurants.isLast());
+
+        return restaurantResponse;
+
     }
 
     @Override

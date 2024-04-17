@@ -2,7 +2,9 @@ package com.melihcoskun.restaurant.controller;
 
 
 import com.melihcoskun.restaurant.payload.RestaurantDto;
+import com.melihcoskun.restaurant.payload.RestaurantResponse;
 import com.melihcoskun.restaurant.service.RestaurantService;
+import com.melihcoskun.restaurant.utils.AppConstants;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +31,14 @@ public class RestaurantController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RestaurantDto>> getAllRestaurants(){
+    public ResponseEntity<RestaurantResponse> getAllRestaurants(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy" , defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ){
 
-        return ResponseEntity.ok(restaurantService.getAllRestaurants());
+        return ResponseEntity.ok(restaurantService.getAllRestaurants(pageNo, pageSize,sortBy, sortDir));
     }
 
     @GetMapping("/{id}")

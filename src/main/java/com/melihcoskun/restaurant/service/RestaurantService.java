@@ -1,6 +1,7 @@
 package com.melihcoskun.restaurant.service;
 
 import com.melihcoskun.restaurant.payload.RestaurantDto;
+import com.melihcoskun.restaurant.payload.RestaurantResponse;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ public interface RestaurantService {
 
     RestaurantDto createRestaurant(RestaurantDto restaurantDto);
 
-    List<RestaurantDto> getAllRestaurants();
+    RestaurantResponse getAllRestaurants(int pageNo, int pageSize, String sortBy, String sortDir);
 
     RestaurantDto getRestaurantById(long id);
 
