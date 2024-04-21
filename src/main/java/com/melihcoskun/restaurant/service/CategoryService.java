@@ -10,4 +10,5 @@ public interface CategoryService {
     CategoryDto createCategory(CategoryDto categoryDto, long restaurantId);
 
     List<CategoryDto> getCategoriesByRestaurantId(Long restaurantId);
+    //List<CategoryDto> getCategoriesByRestaurantId(Long restaurantId);
 }

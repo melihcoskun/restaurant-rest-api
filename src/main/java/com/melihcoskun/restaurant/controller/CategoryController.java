@@ -23,14 +23,14 @@ public class CategoryController {
 
     }
 
-    @PostMapping("/{restaurantId}/category")
+    @PostMapping("/{restaurantId}/categories")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto,
                                                       @PathVariable Long restaurantId){
 
         return ResponseEntity.ok(categoryService.createCategory(categoryDto,restaurantId));
     }
 
-    @GetMapping("/{restaurantId}/category")
+    @GetMapping("/{restaurantId}/categories")
     public ResponseEntity<List<CategoryDto>> getCategoriesByRestaurantId(@PathVariable Long restaurantId){
 
         return ResponseEntity.ok(categoryService.getCategoriesByRestaurantId(restaurantId));

@@ -1,6 +1,7 @@
 package com.melihcoskun.restaurant.service.impl;
 
 import com.melihcoskun.restaurant.entity.Category;
+import com.melihcoskun.restaurant.entity.Product;
 import com.melihcoskun.restaurant.entity.Restaurant;
 import com.melihcoskun.restaurant.exception.ResourceNotFoundException;
 import com.melihcoskun.restaurant.payload.CategoryDto;
@@ -31,10 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = mapToEntity(categoryDto);
 
-        category.addRestaurant(restaurant);
+        category.setRestaurant(restaurant);
         Category savedCategory = categoryRepository.save(category);
-
-
 
         return mapToDto(savedCategory);
     }
@@ -43,10 +42,21 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> getCategoriesByRestaurantId(Long restaurantId) {
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new ResourceNotFoundException("Restaurant","id",restaurantId));
+        List<Category> categories = categoryRepository.findByRestaurantId(restaurantId);
+
+        return categories.stream().map(this::mapToDto).collect(Collectors.toList());
+
+    }
+
+   /* @Override
+    public List<CategoryDto> getCategoriesByRestaurantId(Long restaurantId) {
+
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new ResourceNotFoundException("Restaurant","id",restaurantId));
         List<Category> categories = categoryRepository.findCategoriesByRestaurantId(restaurantId);
 
         return categories.stream().map(this::mapToDto).collect(Collectors.toList());
     }
+    */
 
     private CategoryDto mapToDto(Category category) {
         CategoryDto categoryDto = new CategoryDto();

@@ -39,14 +39,13 @@ public class Restaurant {
     @Column(nullable = false)
     private String phone;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Product> products = new HashSet<>();
 
 
-    @ManyToMany(
-            mappedBy = "restaurants"
+    @OneToMany(
+            mappedBy = "restaurant", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true
     )
-    private List<Category> categories;
+    private Set<Category> categories;
 
 
 

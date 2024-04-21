@@ -1,9 +1,12 @@
 package com.melihcoskun.restaurant.controller;
 
 
+import com.melihcoskun.restaurant.entity.Product;
+import com.melihcoskun.restaurant.payload.CategoryDto;
 import com.melihcoskun.restaurant.payload.ProductDto;
 import com.melihcoskun.restaurant.service.ProductService;
 import com.melihcoskun.restaurant.service.RestaurantService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/restaurants")
 public class ProductController {
+
+
+
+
+
 
 
 
@@ -22,6 +30,17 @@ public class ProductController {
 
         this.productService = productService;
     }
+
+    @PostMapping("/{restaurantId}/categories/{categoryId}/products")
+    public ResponseEntity<ProductDto> createProduct(@PathVariable Long restaurantId,
+                                              @PathVariable Long categoryId,
+                                              @RequestBody ProductDto productDto) {
+
+
+        return new ResponseEntity<>(productService.createProduct(restaurantId,categoryId,productDto), HttpStatus.CREATED);
+    }
+
+    /*
 
     @PostMapping("/restaurants/{restaurantId}/products")
     public ResponseEntity<ProductDto> createProduct(@PathVariable long restaurantId,
@@ -65,6 +84,8 @@ public class ProductController {
     }
 
 
+
+*/
 
 
 }

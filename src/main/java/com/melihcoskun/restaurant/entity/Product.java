@@ -26,8 +26,9 @@ public class Product {
     private String description;
     private double price;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
 }

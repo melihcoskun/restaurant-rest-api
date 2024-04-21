@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ProductService {
 
-    ProductDto createProduct(long restaurantId, ProductDto productDto);
+    ProductDto createProduct(long restaurantId,long categoryId, ProductDto productDto);
 
-    List<ProductDto> getProductsByRestaurantId(long restaurantId);
+   /* List<ProductDto> getProductsByRestaurantId(long restaurantId);
 
     ProductDto getProductById(long restaurantId, long productId);
 
@@ -17,7 +17,7 @@ public interface ProductService {
 
     void deleteProduct(long restaurantId, long productId);
 
-
+ */
 
 
 }

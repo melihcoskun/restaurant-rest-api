@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -27,24 +28,16 @@ public class Category {
 
 
 
-    @ManyToMany(
-            fetch = FetchType.LAZY, cascade = CascadeType.ALL
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
+
+
+    @OneToMany(
+            mappedBy = "category", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true
     )
-    @JoinTable(
-            name = "category_restaurant",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "restaurant_id")
-
-    )
-    private List<Restaurant> restaurants;
-
-    public void addRestaurant(Restaurant restaurant) {
-        if(restaurants == null) {
-            restaurants = new ArrayList<>();
-        }
-        restaurants.add(restaurant);
-
-    }
+    private Set<Product> products;
 
 
 
