@@ -40,6 +40,19 @@ public class ProductController {
         return new ResponseEntity<>(productService.createProduct(restaurantId,categoryId,productDto), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{restaurantId}/categories/{categoryId}/products")
+    public ResponseEntity<List<ProductDto>> getProducts(@PathVariable Long restaurantId,
+                                                        @PathVariable Long categoryId) {
+
+        return ResponseEntity.ok(productService.getProductsByCategoryId(restaurantId,categoryId));
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDto>> getProductsByCategoryName(@RequestParam String catName){
+
+        return ResponseEntity.ok(productService.findByCategoryName(catName));
+    }
+
     /*
 
     @PostMapping("/restaurants/{restaurantId}/products")

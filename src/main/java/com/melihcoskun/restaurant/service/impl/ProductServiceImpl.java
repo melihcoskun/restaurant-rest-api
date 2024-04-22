@@ -51,6 +51,31 @@ public class ProductServiceImpl implements ProductService {
         return mapToDto(newProduct);
 
     }
+
+    @Override
+    public List<ProductDto> getProductsByCategoryId(long restaurantId,long categoryId) {
+
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new ResourceNotFoundException("Restaurant","id",restaurantId));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() ->
+                new ResourceNotFoundException("Category", "id", categoryId));
+
+        if(!category.getRestaurant().getId().equals(restaurant.getId())) {
+            throw new RestaurantAPIException(HttpStatus.BAD_REQUEST,"Category does not belong to restaurant");
+        }
+
+        List<Product> products = productRepository.findByCategoryId(categoryId);
+        return products.stream().map(this::mapToDto).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<ProductDto> findByCategoryName(String categoryName) {
+
+        List<Product> products = productRepository.findByCategoryName(categoryName);
+        return products.stream().map(this::mapToDto).collect(Collectors.toList());
+
+    }
+
     /*
         @Override
         public ProductDto createProduct(long restaurantId, ProductDto productDto) {
